@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>MC Next Test</title>
 
-  <!-- Salesforce Web Tracking -->
+  <!-- WEB SDK -->
   <script src="https://cdn.c360a.salesforce.com/beacon/c360a/1e8aaae5-7caa-4911-b951-29ef25698a61/scripts/c360a.min.js?wtcp_id=1NDVe0000000CVpOAM"></script>
 
   <style>
@@ -21,11 +21,11 @@
       background-image: url("https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1600&q=80");
       background-size: cover;
       background-position: center;
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
+      position: relative;
     }
 
     .hero::after {
@@ -51,7 +51,6 @@
 
     .subtitle {
       margin-top: 10px;
-      font-weight: 300;
       letter-spacing: 2px;
       color: #ffdddd;
       text-transform: uppercase;
@@ -84,6 +83,13 @@
       margin: 8px 0;
       border: 1px solid #ddd;
     }
+
+    a {
+      color: #8b0f1a;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 13px;
+    }
   </style>
 </head>
 
@@ -102,9 +108,15 @@
   <p>Premium test page for Marketing Cloud Next tracking.</p>
 
   <button id="cta" class="btn">Book Consultation</button>
+
+  <div style="margin-top: 20px;">
+    <a href="https://www.neauvia.com" id="main-link" target="_blank">
+      Discover More
+    </a>
+  </div>
 </div>
 
-<!-- FORM HANDLER FORM -->
+<!-- FORM HANDLER -->
 <div class="card">
   <h2>Join Experience</h2>
 
@@ -123,13 +135,13 @@
   </form>
 </div>
 
-<!-- FORM HANDLER SCRIPT (MUST BE BEFORE </body>) -->
+<!-- FORM HANDLER SCRIPT -->
 <script async
   src="https://neauviaglobal--mcpoc.sandbox.my.site.com/lp/assets/scripts/external-form-handler-host.min.js"
   onload="SFDCFormHandler.init('https://neauviaglobal--mcpoc.sandbox.my.site.com/lp')">
 </script>
 
-<!-- TRACKING (OPTIONAL - SEPARATE FROM FORM) -->
+<!-- TRACKING (WEB SDK ONLY) -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -141,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var lastName = document.getElementById("lastName").value;
     var email = document.getElementById("email").value;
 
+    // 🔵 identity
     if (window.SalesforceInteractions && SalesforceInteractions.sendEvent) {
       SalesforceInteractions.sendEvent({
         user: {
@@ -154,6 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
+      // 🟢 contact point email
       SalesforceInteractions.sendEvent({
         user: {
           attributes: {
@@ -164,6 +178,26 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+  });
+
+  // CTA click tracking
+  document.getElementById("cta").addEventListener("click", function () {
+    if (window.c360a) {
+      c360a.track("cta_click", {
+        button_name: "Book Consultation",
+        page: window.location.pathname
+      });
+    }
+  });
+
+  // LINK tracking (Neauvia)
+  document.getElementById("main-link").addEventListener("click", function () {
+    if (window.c360a) {
+      c360a.track("link_click", {
+        link_name: "Discover More",
+        destination: "neauvia.com"
+      });
+    }
   });
 
 });
