@@ -161,7 +161,18 @@
     </div>
   </div>
 
-  <script>
+<script>
+function trackEvent(name, payload) {
+  if (window.c360a && typeof c360a.track === "function") {
+    c360a.track(name, payload);
+  } else {
+    console.warn("c360a not ready, retrying...");
+    setTimeout(function () {
+      trackEvent(name, payload);
+    }, 300);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
   // === CLICK TRACKING ===
@@ -169,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var ctaBtn = document.getElementById("cta");
   if (ctaBtn) {
     ctaBtn.addEventListener("click", function () {
-      c360a.track("cta_click", {
+      trackEvent("cta_click", {
         button_name: "Book Consultation",
         page: window.location.pathname
       });
@@ -178,12 +189,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var mainLink = document.getElementById("main-link");
   if (mainLink) {
-    mainLink.addEventListener("click", function () {
-      c360a.track("link_click", {
+    mainLink.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      trackEvent("link_click", {
         link_name: "Discover More",
         destination: "neauvia.com",
         page: window.location.pathname
       });
+
+      setTimeout(function () {
+        window.location.href = "https://www.neauvia.com";
+      }, 300);
     });
   }
 
@@ -203,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!scrollEventsFired[50] && scrollPercent >= 50) {
       scrollEventsFired[50] = true;
-      c360a.track("scroll_50", {
+      trackEvent("scroll_50", {
         percent: 50,
         page: window.location.pathname
       });
@@ -211,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!scrollEventsFired[75] && scrollPercent >= 75) {
       scrollEventsFired[75] = true;
-      c360a.track("scroll_75", {
+      trackEvent("scroll_75", {
         percent: 75,
         page: window.location.pathname
       });
@@ -219,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!scrollEventsFired[100] && scrollPercent >= 100) {
       scrollEventsFired[100] = true;
-      c360a.track("scroll_100", {
+      trackEvent("scroll_100", {
         percent: 100,
         page: window.location.pathname
       });
