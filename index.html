@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>MC Next Test</title>
 
-  <!-- Salesforce Web Tracking (AUTO ENGAGEMENT) -->
+  <!-- Salesforce Web Tracking -->
   <script src="https://cdn.c360a.salesforce.com/beacon/c360a/1e8aaae5-7caa-4911-b951-29ef25698a61/scripts/c360a.min.js?wtcp_id=1NDVe0000000CVpOAM"></script>
 
   <style>
@@ -18,7 +18,7 @@
 
     .hero {
       height: 65vh;
-      background-image: url("https://images.unsplash.com/photo-1581595219315-a187dd40c322?auto=format&fit=crop&w=1600&q=80");
+      background-image: url("https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1600&q=80");
       background-size: cover;
       background-position: center;
       position: relative;
@@ -66,12 +66,6 @@
       text-align: center;
     }
 
-    p {
-      font-weight: 300;
-      color: #444;
-      line-height: 1.6;
-    }
-
     .btn {
       background: #8b0f1a;
       color: white;
@@ -82,154 +76,98 @@
       letter-spacing: 3px;
       text-transform: uppercase;
       cursor: pointer;
-      font-weight: 300;
     }
 
-    .btn:hover {
-      background: #6f0c14;
-    }
-
-    a {
-      color: #8b0f1a;
-      text-decoration: none;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-size: 13px;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .image-box img {
+    input {
       width: 100%;
-      border-radius: 6px;
-      margin-top: 20px;
-    }
-
-    .form-placeholder {
-      border: 1px dashed #ccc;
-      padding: 40px;
-      margin-top: 20px;
-      color: #777;
-      font-size: 14px;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-content">
-      <h1>Aesthetic Science</h1>
-      <div class="subtitle">Clinical Beauty Innovation</div>
-    </div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>Aesthetic Science</h1>
+    <div class="subtitle">Clinical Beauty Innovation</div>
   </div>
+</div>
 
-  <!-- CONTENT -->
-  <div class="card">
-    <p>
-      Premium test page for Marketing Cloud Next tracking with medical aesthetics layout.
-    </p>
+<!-- CONTENT -->
+<div class="card">
+  <p>Premium test page for Marketing Cloud Next tracking.</p>
 
-    <button id="cta" class="btn">Book Consultation</button>
+  <button id="cta" class="btn">Book Consultation</button>
+</div>
 
-    <div style="margin-top: 20px;">
-      <a href="https://www.neauvia.com" id="main-link">
-        Discover More
-      </a>
-    </div>
+<!-- FORM HANDLER FORM -->
+<div class="card">
+  <h2>Join Experience</h2>
 
-    <div class="image-box">
-      <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1600&q=80" alt="Medical aesthetics">
-    </div>
-  </div>
+  <form
+    id="MCM5CXRHCJT5FRDGN3ARQP5DDA6M"
+    data-uma-forms="true"
+  >
 
-  <!-- FORM -->
-  <div class="card">
-    <h2 style="font-weight:200; letter-spacing:3px; text-transform:uppercase;">
-      Join Experience
-    </h2>
+    <input name="firstName" id="firstName" placeholder="First name" />
+    <input name="lastName" id="lastName" placeholder="Last name" />
+    <input name="email" id="email" type="email" placeholder="Email" required />
+    <input name="company" id="company" placeholder="Company" />
+    <input name="city" id="city" placeholder="City" />
 
-    <form id="lead-form">
-  <input
-    type="text"
-    id="firstName"
-    placeholder="First name"
-    style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;"
-  />
+    <button type="submit" class="btn">Submit</button>
+  </form>
+</div>
 
-  <input
-    type="text"
-    id="lastName"
-    placeholder="Last name"
-    style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;"
-  />
+<!-- FORM HANDLER SCRIPT (MUST BE BEFORE </body>) -->
+<script async
+  src="https://neauviaglobal--mcpoc.sandbox.my.site.com/lp/assets/scripts/external-form-handler-host.min.js"
+  onload="SFDCFormHandler.init('https://neauviaglobal--mcpoc.sandbox.my.site.com/lp')">
+</script>
 
-  <input
-    type="email"
-    id="email"
-    placeholder="Email address"
-    required
-    style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;"
-  />
-
-  <button type="submit" class="btn">Submit</button>
-</form>
-
-<p id="form-status" style="margin-top:10px; color:green;"></p>
-  </div>
-
-</body>
-</html>
-
-
+<!-- TRACKING (OPTIONAL - SEPARATE FROM FORM) -->
 <script>
-document.getElementById("lead-form").addEventListener("submit", function(e) {
+document.addEventListener("DOMContentLoaded", function () {
 
-  // ❗ NIE BLOKUJEMY SUBMIT (kluczowa zmiana)
-  // e.preventDefault();  <-- USUWAMY
+  var form = document.getElementById("MCM5CXRHCJT5FRDGN3ARQP5DDA6M");
 
-  var firstName = document.getElementById("firstName").value;
-  var lastName = document.getElementById("lastName").value;
-  var email = document.getElementById("email").value;
-  var company = document.getElementById("company").value;
-  var city = document.getElementById("city").value;
+  form.addEventListener("submit", function () {
 
-  // 1. UI STATUS (opcjonalnie)
-  document.getElementById("form-status").innerText = "Submitting...";
+    var firstName = document.getElementById("firstName").value;
+    var lastName = document.getElementById("lastName").value;
+    var email = document.getElementById("email").value;
 
-  // 🔵 2. IDENTITY TRACKING (Data Cloud)
-  if (window.SalesforceInteractions && SalesforceInteractions.sendEvent) {
-    SalesforceInteractions.sendEvent({
-      user: {
-        attributes: {
-          eventType: "identity",
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          isAnonymous: 0
+    if (window.SalesforceInteractions && SalesforceInteractions.sendEvent) {
+      SalesforceInteractions.sendEvent({
+        user: {
+          attributes: {
+            eventType: "identity",
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            isAnonymous: 0
+          }
         }
-      }
-    });
-  }
+      });
 
-  // 🟢 3. EMAIL CONTACT POINT (Data Cloud)
-  if (window.SalesforceInteractions && SalesforceInteractions.sendEvent) {
-    SalesforceInteractions.sendEvent({
-      user: {
-        attributes: {
-          eventType: "contactPointEmail",
-          email: email
+      SalesforceInteractions.sendEvent({
+        user: {
+          attributes: {
+            eventType: "contactPointEmail",
+            email: email
+          }
         }
-      }
-    });
-  }
+      });
+    }
 
-  // 🟡 UI feedback (NIE blokuje submit)
-  document.getElementById("form-status").innerText =
-    "Thank you! We will contact you soon.";
+  });
 
 });
 </script>
+
+</body>
+</html>
