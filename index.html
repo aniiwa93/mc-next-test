@@ -4,91 +4,36 @@
   <meta charset="UTF-8">
   <title>MC Next Test</title>
 
-  <!-- WEB SDK -->
+  <!-- WEB TRACKING -->
   <script src="https://cdn.c360a.salesforce.com/beacon/c360a/1e8aaae5-7caa-4911-b951-29ef25698a61/scripts/c360a.min.js?wtcp_id=1NDVe0000000CVpOAM"></script>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #8b0f1a;
-      color: #1a1a1a;
-      font-weight: 300;
-    }
-
-    .hero {
-      height: 65vh;
-      background-image: url("https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1600&q=80");
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      color: white;
-    }
-
-    h1 {
-      font-weight: 200;
-      letter-spacing: 4px;
-      font-size: 44px;
-      margin: 0;
-      text-transform: uppercase;
-    }
-
-    .subtitle {
-      margin-top: 10px;
-      letter-spacing: 2px;
-      color: #ffdddd;
-      text-transform: uppercase;
-    }
+    body { margin:0; font-family:Arial; background:#8b0f1a; }
 
     .card {
-      max-width: 800px;
-      margin: 40px auto;
-      background: white;
-      padding: 50px 25px;
-      border-radius: 6px;
-      text-align: center;
+      max-width:800px;
+      margin:40px auto;
+      background:#fff;
+      padding:40px;
+      border-radius:8px;
+      text-align:center;
     }
 
     .btn {
-      background: #8b0f1a;
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      margin: 15px;
-      font-size: 13px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      cursor: pointer;
+      background:#8b0f1a;
+      color:#fff;
+      border:none;
+      padding:12px 24px;
+      cursor:pointer;
+      text-transform:uppercase;
+      letter-spacing:2px;
     }
 
     input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #ddd;
-    }
-
-    a {
-      color: #8b0f1a;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 13px;
+      width:100%;
+      padding:10px;
+      margin:6px 0;
+      border:1px solid #ddd;
     }
   </style>
 </head>
@@ -96,108 +41,86 @@
 <body>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-content">
-    <h1>Aesthetic Science</h1>
-    <div class="subtitle">Clinical Beauty Innovation</div>
-  </div>
-</div>
-
-<!-- CONTENT -->
 <div class="card">
-  <p>Premium test page for Marketing Cloud Next tracking.</p>
-
-  <button id="cta" class="btn">Book Consultation</button>
-
-  <div style="margin-top: 20px;">
-    <a href="https://www.neauvia.com" id="main-link" target="_blank">
-      Discover More
-    </a>
-  </div>
+  <h1>Aesthetic Science</h1>
+  <p>Clinical Beauty Innovation</p>
 </div>
 
-<!-- FORM HANDLER -->
+<!-- FORM -->
 <div class="card">
   <h2>Join Experience</h2>
 
-  <form
-    id="MCM5CXRHCJT5FRDGN3ARQP5DDA6M"
-    data-uma-forms="true"
-  >
-
-    <input name="firstName" id="firstName" placeholder="First name" />
-    <input name="lastName" id="lastName" placeholder="Last name" />
-    <input name="email" id="email" type="email" placeholder="Email" required />
-    <input name="company" id="company" placeholder="Company" />
-    <input name="city" id="city" placeholder="City" />
+  <form id="lead-form">
+    
+    <input id="firstName" placeholder="First name" />
+    <input id="lastName" placeholder="Last name" />
+    <input id="email" type="email" placeholder="Email" required />
+    <input id="company" placeholder="Company" />
+    <input id="city" placeholder="City" />
 
     <button type="submit" class="btn">Submit</button>
   </form>
+
+  <p id="form-status"></p>
 </div>
 
-<!-- FORM HANDLER SCRIPT -->
+<!-- LINK -->
+<div class="card">
+  <a href="https://www.neauvia.com" id="main-link">
+    Discover More
+  </a>
+</div>
+
+<!-- FORM HANDLER SCRIPT (MUST BE BEFORE </body>) -->
 <script async
   src="https://neauviaglobal--mcpoc.sandbox.my.site.com/lp/assets/scripts/external-form-handler-host.min.js"
   onload="SFDCFormHandler.init('https://neauviaglobal--mcpoc.sandbox.my.site.com/lp')">
 </script>
 
-<!-- TRACKING (WEB SDK ONLY) -->
+<!-- TRACKING -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-  var form = document.getElementById("MCM5CXRHCJT5FRDGN3ARQP5DDA6M");
-
-  form.addEventListener("submit", function () {
+  document.getElementById("lead-form").addEventListener("submit", function(e) {
+    e.preventDefault();
 
     var firstName = document.getElementById("firstName").value;
-    var lastName = document.getElementById("lastName").value;
-    var email = document.getElementById("email").value;
+    var lastName  = document.getElementById("lastName").value;
+    var email     = document.getElementById("email").value;
+    var company   = document.getElementById("company").value;
+    var city      = document.getElementById("city").value;
 
-    // 🔵 identity
-    if (window.SalesforceInteractions && SalesforceInteractions.sendEvent) {
+    document.getElementById("form-status").innerText = "Submitting...";
+
+    // Identity
+    if (window.SalesforceInteractions) {
       SalesforceInteractions.sendEvent({
         user: {
           attributes: {
             eventType: "identity",
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
+            firstName,
+            lastName,
+            email,
+            company,
+            city,
             isAnonymous: 0
           }
         }
       });
 
-      // 🟢 contact point email
+      // Email binding
       SalesforceInteractions.sendEvent({
         user: {
           attributes: {
             eventType: "contactPointEmail",
-            email: email
+            email
           }
         }
       });
     }
 
-  });
-
-  // CTA click tracking
-  document.getElementById("cta").addEventListener("click", function () {
-    if (window.c360a) {
-      c360a.track("cta_click", {
-        button_name: "Book Consultation",
-        page: window.location.pathname
-      });
-    }
-  });
-
-  // LINK tracking (Neauvia)
-  document.getElementById("main-link").addEventListener("click", function () {
-    if (window.c360a) {
-      c360a.track("link_click", {
-        link_name: "Discover More",
-        destination: "neauvia.com"
-      });
-    }
+    document.getElementById("form-status").innerText =
+      "Thank you! We will contact you soon.";
   });
 
 });
