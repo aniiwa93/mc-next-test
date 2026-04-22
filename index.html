@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>MC Next Test</title>
-<script src="https://cdn.c360a.salesforce.com/beacon/c360a/1e8aaae5-7caa-4911-b951-29ef25698a61/scripts/c360a.min.js?wtcp_id=1NDVe0000000CVpOAM"></script>
+
+  <!-- Salesforce Web Tracking (AUTO ENGAGEMENT) -->
+  <script src="https://cdn.c360a.salesforce.com/beacon/c360a/1e8aaae5-7caa-4911-b951-29ef25698a61/scripts/c360a.min.js?wtcp_id=1NDVe0000000CVpOAM"></script>
+
   <style>
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: #8b0f1a; /* deep medical red */
+      background: #8b0f1a;
       color: #1a1a1a;
       font-weight: 300;
     }
 
-    /* HERO */
     .hero {
       height: 65vh;
       background-image: url("https://images.unsplash.com/photo-1581595219315-a187dd40c322?auto=format&fit=crop&w=1600&q=80");
@@ -55,7 +57,6 @@
       text-transform: uppercase;
     }
 
-    /* WHITE CARD SECTIONS */
     .card {
       max-width: 800px;
       margin: 40px auto;
@@ -71,7 +72,6 @@
       line-height: 1.6;
     }
 
-    /* BUTTON */
     .btn {
       background: #8b0f1a;
       color: white;
@@ -89,7 +89,6 @@
       background: #6f0c14;
     }
 
-    /* LINK */
     a {
       color: #8b0f1a;
       text-decoration: none;
@@ -102,14 +101,12 @@
       text-decoration: underline;
     }
 
-    /* IMAGE */
     .image-box img {
       width: 100%;
       border-radius: 6px;
       margin-top: 20px;
     }
 
-    /* FORM PLACEHOLDER (Salesforce-ready) */
     .form-placeholder {
       border: 1px dashed #ccc;
       padding: 40px;
@@ -149,103 +146,16 @@
     </div>
   </div>
 
-  <!-- SALESFORCE FORM SECTION -->
+  <!-- FORM -->
   <div class="card">
     <h2 style="font-weight:200; letter-spacing:3px; text-transform:uppercase;">
       Join Experience
     </h2>
 
-    <!-- TU WSTAWISZ SALESFORCE FORM -->
-    <div id="salesforce-form-container" class="form-placeholder">
-      Salesforce form will be embedded here (MC / Forms / Web Studio / Experience Cloud)
+    <div class="form-placeholder">
+      Salesforce form will be embedded here (MC / Forms / Experience Cloud)
     </div>
   </div>
-
-<script>
-function trackEvent(name, payload) {
-  if (window.c360a && typeof c360a.track === "function") {
-    c360a.track(name, payload);
-  } else {
-    console.warn("c360a not ready, retrying...");
-    setTimeout(function () {
-      trackEvent(name, payload);
-    }, 300);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-
-  // === CLICK TRACKING ===
-
-  var ctaBtn = document.getElementById("cta");
-  if (ctaBtn) {
-    ctaBtn.addEventListener("click", function () {
-      trackEvent("cta_click", {
-        button_name: "Book Consultation",
-        page: window.location.pathname
-      });
-    });
-  }
-
-  var mainLink = document.getElementById("main-link");
-  if (mainLink) {
-    mainLink.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      trackEvent("link_click", {
-        link_name: "Discover More",
-        destination: "neauvia.com",
-        page: window.location.pathname
-      });
-
-      setTimeout(function () {
-        window.location.href = "https://www.neauvia.com";
-      }, 300);
-    });
-  }
-
-  // === SCROLL FUNNEL TRACKING ===
-
-  var scrollEventsFired = {
-    50: false,
-    75: false,
-    100: false
-  };
-
-  window.addEventListener("scroll", function () {
-
-    var scrollTop = window.scrollY;
-    var docHeight = document.body.offsetHeight - window.innerHeight;
-    var scrollPercent = (scrollTop / docHeight) * 100;
-
-    if (!scrollEventsFired[50] && scrollPercent >= 50) {
-      scrollEventsFired[50] = true;
-      trackEvent("scroll_50", {
-        percent: 50,
-        page: window.location.pathname
-      });
-    }
-
-    if (!scrollEventsFired[75] && scrollPercent >= 75) {
-      scrollEventsFired[75] = true;
-      trackEvent("scroll_75", {
-        percent: 75,
-        page: window.location.pathname
-      });
-    }
-
-    if (!scrollEventsFired[100] && scrollPercent >= 100) {
-      scrollEventsFired[100] = true;
-      trackEvent("scroll_100", {
-        percent: 100,
-        page: window.location.pathname
-      });
-    }
-
-  });
-
-});
-</script>
 
 </body>
 </html>
