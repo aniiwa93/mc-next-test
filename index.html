@@ -183,18 +183,24 @@
 
 </body>
 </html>
+
+
 <script>
 document.getElementById("lead-form").addEventListener("submit", function(e) {
-  e.preventDefault();
+
+  // ❗ NIE BLOKUJEMY SUBMIT (kluczowa zmiana)
+  // e.preventDefault();  <-- USUWAMY
 
   var firstName = document.getElementById("firstName").value;
   var lastName = document.getElementById("lastName").value;
   var email = document.getElementById("email").value;
+  var company = document.getElementById("company").value;
+  var city = document.getElementById("city").value;
 
-  // 1. SHOW STATUS
+  // 1. UI STATUS (opcjonalnie)
   document.getElementById("form-status").innerText = "Submitting...";
 
- // 🔵 2. IDENTITY EVENT (tworzy usera)
+  // 🔵 2. IDENTITY TRACKING (Data Cloud)
   if (window.SalesforceInteractions && SalesforceInteractions.sendEvent) {
     SalesforceInteractions.sendEvent({
       user: {
@@ -209,7 +215,7 @@ document.getElementById("lead-form").addEventListener("submit", function(e) {
     });
   }
 
-  // 🟢 3. CONTACT POINT EMAIL (wiąże email jako kanał kontaktu)
+  // 🟢 3. EMAIL CONTACT POINT (Data Cloud)
   if (window.SalesforceInteractions && SalesforceInteractions.sendEvent) {
     SalesforceInteractions.sendEvent({
       user: {
@@ -221,8 +227,9 @@ document.getElementById("lead-form").addEventListener("submit", function(e) {
     });
   }
 
-  // 🟡 UI feedback
+  // 🟡 UI feedback (NIE blokuje submit)
   document.getElementById("form-status").innerText =
     "Thank you! We will contact you soon.";
+
 });
 </script>
