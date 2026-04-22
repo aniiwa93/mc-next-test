@@ -88,18 +88,6 @@ p {
 .btn:hover {
   background: #6f0c14;
 }
-
-a {
-  color: #8b0f1a;
-  text-decoration: none;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-size: 13px;
-}
-
-a:hover {
-  text-decoration: underline;
-}
 </style>
 </head>
 
@@ -117,11 +105,9 @@ a:hover {
 <div class="card">
   <p>Premium test page for Marketing Cloud Next tracking with medical aesthetics layout.</p>
 
-  <button id="cta" class="btn">Book Consultation</button>
-
-  <div style="margin-top: 20px;">
-    <a href="https://www.neauvia.com" id="main-link">Discover More</a>
-  </div>
+  <button class="btn" onclick="window.location.href='https://www.neauvia.com'">
+    Book Consultation
+  </button>
 </div>
 
 <!-- FORM -->
@@ -130,83 +116,50 @@ a:hover {
     Join Experience
   </h2>
 
-  <!-- Salesforce Form Handler requirements added -->
   <form id="MCM5CXRHCJT5FRDGN3ARQP5DDA6M" data-uma-forms="true">
 
-    <input type="text" id="firstName" placeholder="First name"
+    <input type="text" name="firstName" id="firstName" placeholder="First name"
       style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;" />
 
-    <input type="text" id="lastName" placeholder="Last name"
+    <input type="text" name="lastName" id="lastName" placeholder="Last name"
       style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;" />
 
-    <input type="text" id="company" placeholder="Company"
+    <input type="text" name="company" id="company" placeholder="Company"
       style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;" />
 
-    <input type="text" id="city" placeholder="City"
+    <input type="text" name="city" id="city" placeholder="City"
       style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;" />
 
-    <input type="email" id="email" placeholder="Email address" required
+    <input type="email" name="email" id="email" placeholder="Email address" required
       style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;" />
 
     <button type="submit" class="btn">Submit</button>
   </form>
 
-  <p id="form-status" style="margin-top:10px; color:green;"></p>
+  <p id="form-status" style="margin-top:10px; color:#2e7d32;"></p>
 </div>
 
-<!-- Salesforce Form Handler Script (MUST be before </body>) -->
+<!-- Salesforce Form Handler -->
 <script async
   src="https://neauviaglobal--mcpoc.sandbox.my.site.com/lp/assets/scripts/external-form-handler-host.min.js"
   onload="SFDCFormHandler.init('https://neauviaglobal--mcpoc.sandbox.my.site.com/lp')">
 </script>
 
+<!-- UI feedback only (no blocking, no tracking) -->
 <script>
-document.getElementById("lead-form")?.addEventListener("submit", function(e) {
-  e.preventDefault();
-});
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("MCM5CXRHCJT5FRDGN3ARQP5DDA6M");
+  const status = document.getElementById("form-status");
 
-// form handler (custom tracking)
-document.getElementById("MCM5CXRHCJT5FRDGN3ARQP5DDA6M")
-.addEventListener("submit", function(e) {
-  e.preventDefault();
+  if (!form) return;
 
-  var firstName = document.getElementById("firstName").value;
-  var lastName  = document.getElementById("lastName").value;
-  var company   = document.getElementById("company").value;
-  var city      = document.getElementById("city").value;
-  var email     = document.getElementById("email").value;
+  form.addEventListener("submit", function () {
+    status.innerText = "Submitting...";
 
-  document.getElementById("form-status").innerText = "Submitting...";
-
-  // Identity event
-  if (window.SalesforceInteractions && SalesforceInteractions.sendEvent) {
-    SalesforceInteractions.sendEvent({
-      user: {
-        attributes: {
-          eventType: "identity",
-          firstName: firstName,
-          lastName: lastName,
-          company: company,
-          city: city,
-          email: email,
-          isAnonymous: 0
-        }
-      }
-    });
-
-    // Contact point email
-    SalesforceInteractions.sendEvent({
-      user: {
-        attributes: {
-          eventType: "contactPointEmail",
-          email: email
-        }
-      }
-    });
-  }
-
-  document.getElementById("form-status").innerText =
-    "Thank you! We will contact you soon.";
+    setTimeout(() => {
+      status.innerText = "Thank you! We will contact you soon.";
+    }, 1200);
+  });
 });
 </script>
 
