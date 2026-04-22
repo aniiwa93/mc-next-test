@@ -152,10 +152,75 @@
       Join Experience
     </h2>
 
-    <div class="form-placeholder">
-      Salesforce form will be embedded here (MC / Forms / Experience Cloud)
-    </div>
+    <form id="lead-form">
+  <input
+    type="text"
+    id="firstName"
+    placeholder="First name"
+    style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;"
+  />
+
+  <input
+    type="text"
+    id="lastName"
+    placeholder="Last name"
+    style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;"
+  />
+
+  <input
+    type="email"
+    id="email"
+    placeholder="Email address"
+    required
+    style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd;"
+  />
+
+  <button type="submit" class="btn">Submit</button>
+</form>
+
+<p id="form-status" style="margin-top:10px; color:green;"></p>
   </div>
 
 </body>
 </html>
+<script>
+document.getElementById("lead-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  var firstName = document.getElementById("firstName").value;
+  var lastName = document.getElementById("lastName").value;
+  var email = document.getElementById("email").value;
+
+  // 1. SHOW STATUS
+  document.getElementById("form-status").innerText = "Submitting...";
+
+  // 2. SEND IDENTITY EVENT (KLUCZ DO DATA CLOUD)
+  if (window.SalesforceInteractions && SalesforceInteractions.sendEvent) {
+
+    SalesforceInteractions.sendEvent({
+      user: {
+        attributes: {
+          eventType: "identity",
+          firstName: firstName,
+          lastName: lastName,
+          email: email
+        }
+      }
+    });
+
+  }
+
+  // 3. OPTIONAL: TRACK FORM SUBMIT (engagement event)
+  if (window.c360a && c360a.track) {
+    c360a.track("form_submit", {
+      email: email,
+      page: window.location.pathname
+    });
+  }
+
+  // 4. UI FEEDBACK
+  document.getElementById("form-status").innerText =
+    "Thank you! We will contact you soon.";
+
+});
+</script>
